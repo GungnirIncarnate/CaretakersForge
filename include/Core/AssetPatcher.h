@@ -5,13 +5,10 @@
 #include "Core/ModScanner.h"
 
 namespace Forge {
-    // Queues patches per target asset and applies them once the asset exists in memory.
-    // Driven purely by events (see ApplyPending callers); nothing here runs per frame.
     class AssetPatcher {
     public:
         explicit AssetPatcher(const std::vector<ModInfo>& mods);
 
-        // Tries every still-pending target. Must be called from the game thread.
         void ApplyPending(const RC::StringType& reason);
 
         bool HasPending() const { return !m_pending.empty(); }
@@ -23,7 +20,7 @@ namespace Forge {
         };
 
         struct Target {
-            std::vector<PendingPatch> Patches; // in mod load order
+            std::vector<PendingPatch> Patches;
         };
 
         bool TryApply(const RC::StringType& assetPath, Target& target);

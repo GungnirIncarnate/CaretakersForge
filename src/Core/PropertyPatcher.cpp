@@ -16,7 +16,6 @@ using namespace RC::Unreal;
 
 namespace Forge {
     namespace {
-        // Accepts "/Game/Dir/DA_X.DA_X" or the FModel/export form "ClassName'/Game/Dir/DA_X.DA_X'".
         StringType ParseObjectPath(const std::string& text)
         {
             auto path = to_generic_string(text);
@@ -117,7 +116,6 @@ namespace Forge {
             }
             else if (auto objectProp = CastField<FObjectProperty>(property))
             {
-                // The virtual SetObjectPropertyValue isn't available in this engine build, so write the pointer directly like PalSchema does
                 if (value.is_null())
                 {
                     objectProp->SetPropertyValue(valuePtr, nullptr);
@@ -146,11 +144,9 @@ namespace Forge {
                 auto* innerProp = arrayProp->GetInner();
                 const int32 elementSize = innerProp->GetElementSize();
                 const uint32 elementAlign = static_cast<uint32>(innerProp->GetMinAlignment());
-                // Element writes shouldn't each register as conflicts, only the array as a whole does
                 PatchContext elementContext{ context.ModName, nullptr };
                 bool valid = true;
 
-                // Elements are built in temporary buffers first so a failure never touches the live array.
                 std::vector<uint8*> elements;
                 for (size_t index = 0; index < value.size(); ++index)
                 {
@@ -187,7 +183,6 @@ namespace Forge {
                         }
                     }
 
-                    // Ownership moved into the live array, so the temporary buffers are freed without destructing.
                     for (auto* element : elements) FMemory::Free(element);
                     reportWrite();
                     Log<LogLevel::Verbose>(STR("Replaced '{}' with {} array element(s) (mod '{}').\n"),
@@ -210,7 +205,6 @@ namespace Forge {
                     return false;
                 }
 
-                // Two accepted forms: {"key": value, ...} or FModel's [{"Key": k, "Value": v}, ...]
                 struct Entry { nlohmann::json Key; nlohmann::json Value; StringType Label; };
                 std::vector<Entry> entries;
                 if (value.is_object())
@@ -260,7 +254,6 @@ namespace Forge {
                 PatchContext elementContext{ context.ModName, nullptr };
                 bool valid = true;
 
-                // Pairs are validated in temporary buffers first so a failure never leaves the live map half-written.
                 const auto pairSize = static_cast<size_t>(layout.ValueOffset + valueProp->GetSize());
                 std::vector<uint8*> pairs;
 
@@ -324,7 +317,6 @@ namespace Forge {
                     }
                     liveMap->Rehash(layout, [keyProp](const void* item) -> uint32 { return keyProp->GetValueTypeHash(item); });
 
-                    // Ownership moved into the live map, so the temporary buffers are freed without destructing.
                     for (auto* pair : pairs) FMemory::Free(pair);
                     reportWrite();
                     Log<LogLevel::Verbose>(STR("Replaced '{}' with {} map entry/entries (mod '{}').\n"),

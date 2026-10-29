@@ -51,7 +51,6 @@ namespace Forge::JsonHelpers {
             }
         }
 
-        // Deterministic order so load results don't depend on directory enumeration
         std::ranges::sort(files);
 
         for (const auto& file : files)

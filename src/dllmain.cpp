@@ -27,11 +27,8 @@ public:
         m_mods = Forge::ModScanner::Scan();
         m_patcher = std::make_unique<Forge::AssetPatcher>(m_mods);
 
-        // Assets that are already resident (e.g. loaded during engine startup)
         m_patcher->ApplyPending(STR("unreal init"));
 
-        // Event driven retries on the game thread: new maps and new game states are when
-        // the game loads the bulk of its data assets.
         Unreal::Hook::RegisterLoadMapPostCallback(
             [this](auto&, Unreal::UEngine*, Unreal::FWorldContext&, Unreal::FURL, Unreal::UPendingNetGame*, Unreal::FString&) {
                 m_patcher->ApplyPending(STR("map loaded"));

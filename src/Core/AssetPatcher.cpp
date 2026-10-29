@@ -10,7 +10,6 @@ using namespace RC::Unreal;
 
 namespace Forge {
     namespace {
-        // "/Game/Dir/DA_X" -> "/Game/Dir/DA_X.DA_X"
         StringType NormalizeAssetPath(StringType path)
         {
             if (path.find(STR('.')) == StringType::npos)

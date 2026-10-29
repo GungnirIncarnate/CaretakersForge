@@ -17,12 +17,10 @@ namespace Forge {
         std::vector<PatchFile> AssetPatches;
     };
 
-    // Discovers mods under Mods/CaretakersForge/mods/<ModName>/ and reads their asset patch files.
     class ModScanner {
     public:
         static std::filesystem::path GetModsRoot();
 
-        // Mods are returned in load order (currently alphabetical by folder name).
         static std::vector<ModInfo> Scan();
     };
 }

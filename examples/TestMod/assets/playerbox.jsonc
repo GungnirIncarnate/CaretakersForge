@@ -2,7 +2,7 @@
   // Asset path: Voyage/Content/Data/... in FModel becomes /Game/Data/... in game
   "/Game/Data/Assets/Items/DA_Item_PlayerBoxLarge.DA_Item_PlayerBoxLarge": {
     // Logs every property before and after the patch is applied. Remove once you're done testing.
-    "$dump": true,
+    "$dump": false,
 
     "Weight": 5.0,
     "CraftTime": 1.0,

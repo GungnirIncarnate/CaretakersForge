@@ -1,0 +1,24 @@
+{
+  // Asset path: Voyage/Content/Data/... in FModel becomes /Game/Data/... in game
+  "/Game/Data/Assets/Items/DA_Item_PlayerBoxLarge.DA_Item_PlayerBoxLarge": {
+    // Logs every property before and after the patch is applied. Remove once you're done testing.
+    "$dump": true,
+
+    "Weight": 5.0,
+    "CraftTime": 1.0,
+    "bIsRepairable": true,
+
+    // Maps are replaced wholesale. Either {"/Path.Obj": count} or FModel's [{"Key": ..., "Value": ...}] form works.
+    // Original recipe: 4x AlloyFrame + 1x DisplayScreen. Now: 1x each of AlloyFrame, DisplayScreen, StorageCylinder.
+    "Components": {
+      "/Game/Data/Assets/Parts/DA_Part_AlloyFrame.DA_Part_AlloyFrame": 1,
+      "/Game/Data/Assets/Parts/DA_Part_DisplayScreen.DA_Part_DisplayScreen": 1,
+      "/Game/Data/Assets/Parts/DA_Part_StorageCylinder.DA_Part_StorageCylinder": 1
+    },
+
+    "Name": "Forged Storage Crate",
+    "Description": "Modified by CaretakersForge.",
+
+    "DropVariations": []
+  }
+}

@@ -1,0 +1,5 @@
+#pragma once
+
+#define FORGE_VERSION_MAJOR 0
+#define FORGE_VERSION_MINOR 1
+#define FORGE_VERSION_REVISION 0
